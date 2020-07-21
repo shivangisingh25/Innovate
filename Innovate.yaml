@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: Innovates-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: Innovates
+  template:
+    metadata:
+      labels:
+        app: Innovates
+    spec:
+      containers:
+      - name: innovates
+        image: innovatecr.azurecr.io/innovaterepos:latest
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: innovatesn
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: innovates
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: Innovates
